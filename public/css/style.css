@@ -1,0 +1,19 @@
+body {
+    background-color: black;
+    color: lightgray;
+}
+.button-size, h1 {
+    text-align: center; 
+}
+h1 {
+    font-family: 'Satisfy', cursive;
+    font-size: 80px;
+    margin: 25px;
+}
+.users {
+    text-align: center;
+}
+.submit {
+    text-align: center;
+    background-color: darkgrey;
+}
