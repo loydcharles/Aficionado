@@ -1,19 +1,43 @@
-body {
+html, body {
+    margin: 0px;
+    overflow: hidden;
     background-color: black;
     color: lightgray;
 }
-.button-size, h1 {
-    text-align: center; 
+.wrapper {
+    max-width: 1200px;
+    position: relative;
+    background-color: black;
+    margin: 0 auto;
 }
-h1 {
+.button-size {
+     position: absolute;
+     top: 40px;
+     right: 40px;
+}
+#title {
+    position: absolute;
     font-family: 'Satisfy', cursive;
-    font-size: 80px;
-    margin: 25px;
+    font-size: 60px;
+    top: 20px;
+    left: 40px;
 }
 .users {
     text-align: center;
 }
+#username {
+    background-color: black;
+    color: darkgray;
+    border: 0px;
+    border-bottom: 1px;
+    border-color: darkgrey;
+}
 .submit {
     text-align: center;
-    background-color: darkgrey;
+    background-color: darkgray;
+}
+#login {
+    position: absolute;
+    top: 30px;
+    right: 40px;
 }
