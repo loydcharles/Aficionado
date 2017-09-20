@@ -78,3 +78,18 @@ input[type=text]:focus{
     -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
     transform: rotate(-90deg);
 }
+
+/* Clay's Styles */
+.form-control {
+    float: left;
+}
+.artDisplay {
+    margin: 6em 0;
+    width: 80%;
+    height: 50%
+}
+
+#artQuery {
+    margin-left: .75em;
+}
+
