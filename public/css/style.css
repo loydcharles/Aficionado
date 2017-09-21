@@ -1,13 +1,20 @@
 html, body {
     margin: 0px;
     overflow: hidden;
-    background-color: black;
+    /* background-color: black; */
     color: lightgray;
+}
+#canvas {
+    z-index: -100;
+    background-color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 .wrapper {
     max-width: 1200px;
     position: relative;
-    background-color: black;
+    /* background-color: black; */
     margin: 0 auto;
 }
 #title {
@@ -27,6 +34,7 @@ html, body {
     border: 1px solid darkgrey;
     outline: 1px solid darkgrey;
     outline-offset: -10px;
+    background-color: black;
 }
 .button-size {
     position: absolute;
@@ -74,7 +82,7 @@ input[type=text]:focus{
     position: absolute;
     bottom: 280px;
     left: -275px;
-    color: #303030;
+    color: #505050;
     -ms-transform: rotate(-90deg); /* IE 9 */
     -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
     transform: rotate(-90deg);

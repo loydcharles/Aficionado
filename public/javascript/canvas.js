@@ -10,18 +10,6 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 var c = canvas.getContext("2d");
 
-function fade(element) {
-    var op = 1;  // initial opacity
-    var timer = setInterval(function () {
-        if (op <= 0.1){
-            clearInterval(timer);
-            element.style.display = 'none';
-        }
-        element.style.opacity = op;
-        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
-        op -= op * 0.1;
-    }, 50);
-}
 function Circle() {
     this.x = Math.floor(Math.random() * window.innerWidth);
     this.y = Math.floor(Math.random() * window.innerHeight);
@@ -72,11 +60,6 @@ function Circle() {
             this.life = 275;
             this.alive = true;
         }
-        // if(mouse.x - this.x < 25 && mouse.x - this.x > -25 
-        // && mouse.y - this.y < 25 && mouse.y - this.y > -25
-        // && this.radius <= 25) {
-        // 	this.alive = true;
-        // }
         if(this.alive) {
             this.draw();
         }
@@ -101,3 +84,5 @@ function animate() {
 }
 init();
 animate();
+
+window.addEventListener("resize", init);

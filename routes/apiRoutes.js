@@ -1,10 +1,28 @@
 var db = require("../models");
+var request = require('request');
 
 module.exports = function(app) {
     app.get("/", function(req, res) {
-        db.user.findAll({}).then(function(data) {
-            res.render("index", { users: data });
-        });
+        res.render("index", {});
+    });
+    app.get("/api/:query", function(req, res) {
+        var queryURL = "https://www.rijksmuseum.nl/api/en/collection/" + 
+            "?key=nRpUKIg0&format=json&ps=10&imgonly=True&q=" + req.params.query;
+        console.log(req.params.query);
+        if(req.params.query != "default") {
+            request(queryURL, function(err, response, body) {
+                var data = JSON.parse(body);
+                res.json(data);
+            });
+        } else {
+            queryURL = "https://www.rijksmuseum.nl/api/en/collection/" + 
+            "?key=nRpUKIg0&format=json&ps=10&imgonly=True&q=van%20gogh";
+            request(queryURL, function(err, response, body) {
+                var data = JSON.parse(body);
+                res.json(data);
+            });
+        }
+        
     });
     app.post("/", function(req, res) {
         var dup = false;
@@ -37,6 +55,7 @@ module.exports = function(app) {
         });
     });
 }
+
 
 
 
