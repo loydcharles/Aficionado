@@ -66,8 +66,9 @@ input[type=text]:focus{
     outline: 0.25px solid darkgray;    
 }
 .artDisplay {
-    max-width: 1200px;
-    max-height: 100%;
+    margin: 4em, 0;
+    max-width: 40%;
+    max-height: 50%;
 }
 .acknowledgement {
     position: absolute;
@@ -80,9 +81,6 @@ input[type=text]:focus{
 }
 
 /* Clay's Styles */
-.form-control {
-    float: left;
-}
 .artDisplay {
     margin: 6em 0;
     width: 80%;
@@ -92,4 +90,5 @@ input[type=text]:focus{
 #artQuery {
     margin-left: .75em;
 }
+
 
