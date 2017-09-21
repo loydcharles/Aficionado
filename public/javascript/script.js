@@ -33,6 +33,17 @@ $(".submit").on("click", function(event) {
             var searchBtn = $("<button id='artSearch' class='btn btn-lg btn-danger' type='submit'>");
             searchBtn.text("Search");
             $("#title").append(newInput, searchBtn);
+            // Allows the enter key to submit the data
+            $(function() {
+                $("input").keypress(function (e) {
+                    if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                        $('#artSearch').click();
+                        return false;
+                    } else {
+                        return true;
+                    }
+                });
+            });
             $("#artSearch").on("click", function(event) {
                 event.preventDefault();
                 var query = $("#artQuery").val().trim();
@@ -51,11 +62,19 @@ $(".submit").on("click", function(event) {
                             console.log(data.artObjects);
                             $("#artQuery").val("");
                             var index = 1;
+                            var presentationDiv = $("<div>");
+                            var returnedName = $("<h1 class='artistName'>").text(data.artObjects[0].principalOrFirstMaker);
+                            var returnedTitle = $("<h1 class='artTitle'>").text(data.artObjects[0].title);
                             var returnedImages = $("<img class='artDisplay'>").attr("src", data.artObjects[0].webImage.url);
-                            $(".imageDisplay").html(returnedImages);
+                            presentationDiv.append(returnedName, returnedTitle, returnedImages);
+                            $(".imageDisplay").html(presentationDiv);
                                 slideshow = setInterval(function() {
-                                returnedImages = $("<img class='artDisplay'>").attr("src", data.artObjects[index].webImage.url);
-                                $(".imageDisplay").html(returnedImages);
+                                var presentationDiv = $("<div>");
+                                var returnedName = $("<h1 class='artistName'>").text(data.artObjects[index].principalOrFirstMaker);
+                                var returnedTitle = $("<h1 class='artTitle'>").text(data.artObjects[index].title);
+                                var returnedImages = $("<img class='artDisplay'>").attr("src", data.artObjects[index].webImage.url);
+                                presentationDiv.append(returnedName, returnedTitle, returnedImages);
+                                $(".imageDisplay").html(presentationDiv);
                                 index += 1;
                                 if(index === data.artObjects.length) {
                                     index = 0;
