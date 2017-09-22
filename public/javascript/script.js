@@ -1,4 +1,5 @@
-var login = false;
+var login = false,
+logState = false;
 
 function init() {
     $(".wrapper").css("height", window.innerHeight);
@@ -69,7 +70,8 @@ $(".submit").on("click", function(event) {
         name: username
     };
     $.post("/", newPost, function(data) {
-        $("#login").html("<div id='logWrap'>" + data.name + "&nbsp;&nbsp;<img id='avatar' src='/images/avatar.jpg'></div>");
+        $("#login").html("<div id='logName'>" + data.name + "&nbsp;&nbsp;</div><img id='avatar' src='/images/avatar.jpg'><div id='logOut'>Log Out&nbsp;</div>");     
+        avatarClick();
         $("#username").val("");
 
         if(login) {
@@ -119,8 +121,56 @@ function addClick() {
         }
     });
 }
-
+function avatarClick() {
+    $("#avatar").on("click", function(event) {
+        logState = true;
+        if(logState) {
+            var logoutDrop = setInterval(function() {
+                var logHeight = parseInt($("#logOut").css("height"));
+                if(logHeight < 45) {
+                    logHeight += 1;
+                    $("#logOut").css("font-size", logHeight / 2 + "px");
+                    $("#logOut").css("height", logHeight + "px");
+                }
+                if(!logState) {
+                    clearInterval(logoutDrop);
+                }
+            }, 10);
+        }
+    });
+    $("#logOut").on("click", function(event) {
+        location.reload();
+    });
+}
+function hideLogOut() {
+    if(!logState) {
+        var logoutHide = setInterval(function() {
+            var logHeight = parseInt($("#logOut").css("height"));
+            if(logHeight > 0) {
+                logHeight -= 1;
+                $("#logOut").css("font-size", logHeight / 2 + "px");
+                $("#logOut").css("height", logHeight + "px");
+            }
+            if(logState) {
+                clearInterval(logoutHide);
+            }
+        }, 10);
+    }
+}
 
 window.addEventListener("resize", init);
+window.addEventListener("mousemove", function(event) {
+    mouse.x = event.x;
+    mouse.y = event.y;
+    if(mouse.y > 150) {
+        logState = false;
+        hideLogOut();
+    }
+    var screenWidth = window.innerWidth * 0.6;
+    if(mouse.x < screenWidth) {
+        logState = false;
+        hideLogOut();
+    }
+});
 
 init();

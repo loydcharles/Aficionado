@@ -53,8 +53,10 @@ html, body {
     text-align: center;
     background-color: black;
 }
-#logWrap {
-    width: 220px;
+#logName {
+    width: 170px;
+    position: absolute;
+    right: 64px;
 }
 #login {
     position: absolute;
@@ -69,6 +71,19 @@ html, body {
     float: right;
     width: 50px;
     height: 50px;
+    cursor: pointer;
+}
+#logOut {
+    width: 101px;
+    height: 0px;
+    /* height: 45px; */
+    overflow: hidden;
+    position: absolute;
+    top: 50px;
+    right: 0px;
+    background-color: black;
+    color: darkgrey;
+    cursor: pointer;
 }
 input[type=text]:focus{
     outline: 0.25px solid darkgray;    
@@ -96,7 +111,11 @@ input[type=text]:focus{
 }
 
 #artQuery {
-    margin-left: .75em;
+    position: absolute;
+    top: 880px;
 }
-
-
+#artSearch {
+    position: absolute;
+    top: 880px;
+    left: 770px;
+}
