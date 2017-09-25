@@ -38,6 +38,7 @@ html, body {
     outline: 1px solid darkgrey;
     outline-offset: -10px;
     background-color: black;
+    z-index: -1;
 }
 .buttonWrap {
     position: absolute;
@@ -141,4 +142,22 @@ input[type=text]:focus{
     left: 770px;
     color: darkgrey;
     background-color: black;
+}
+/* Long's Styles */
+#description {
+    font-family: 'Amiri', serif;
+    width: 892px;
+    height: 0px;
+    overflow: hidden;
+    /* position: absolute; */
+    padding-left: 80px;
+    top: 50px;
+    font-size: 16.5px;
+    z-index: 100;
+    background-color: black;
+}
+
+#description::first-letter {
+    font-size: 200%;
+    color: #8A2BE2;
 }
