@@ -1,5 +1,8 @@
 var login = false,
-logState = false;
+logState = false,
+search = false,
+searchActive = false,
+searched = false;
 
 function init() {
     $(".wrapper").css("height", window.innerHeight);
@@ -8,83 +11,56 @@ function init() {
     } else {
         $(".wrapper").css("width", "1200px");
     }
-    var pos = window.innerWidth / 2;
-    var off = parseInt($(".wrapper").outerWidth()) / 2;
-    $(".wrapper").css("left", (pos - off) + "px");
-    if(!login) {
-        loginDisplay();
-    }
+    $("#imageDisplay").css("height", window.innerHeight + "px");
+    loginDisplay();
 }
 
 function loginDisplay() {
-    if(window.innerHeight > 600) {
-        $(".inputWrap").css("top", window.innerHeight / 2 - 200);
+    if(!searched) {
+        if(window.innerHeight > 600) {
+            $(".inputWrap").css("top", window.innerHeight / 2 - 200);
+        }
     }
     if(window.innerWidth > 500) {
         $(".inputWrap").css("left", window.innerWidth / 2 - 250);
     }
 }
-var slideshow;
+var slideshow,
+textHide,
+textShow;
 
 function renderData(data) {
-    $(".imageDisplay").empty();
+    $("#imageDisplay").empty();
     clearInterval(slideshow);
-    var index = 1,
-    last = data.artObjects[0].principalOrFirstMaker,
-    presentationDiv = $("<div>"),
-    returnedName = $("<h1 class='artistName'>").text(data.artObjects[0].principalOrFirstMaker),
-    returnedTitle = $("<h1 class='artTitle'>").text(data.artObjects[0].title),
-    returnedImages = $("<img id='artDisplay'>").attr("src", data.artObjects[0].webImage.url),
-    pos,
-    off;
-    presentationDiv.append(returnedName, returnedTitle, returnedImages);
-    $(".imageDisplay").html(presentationDiv);
-    // console.log(document.getElementById("artDisplay").clientWidth, document.getElementById("artDisplay").clientHeight);
-    if(document.getElementById("artDisplay").clientWidth > document.getElementById("artDisplay").clientHeight) {
-        $("#artDisplay").css("width", $(".wrapper").width() + "px");
-        $("#artDisplay").css("height", "auto");
-        pos = $(".wrapper").height() / 2;
-        off = document.getElementById("artDisplay").clientHeight / 2;
-        $("#artDisplay").css("left", (pos - off) + "px");
-    } else {
-        $("#artDisplay").css("height", $(".wrapper").height() + "px");
-        $("#artDisplay").css("width", "auto");
-        pos = $(".wrapper").width() / 2;
-        off = document.getElementById("artDisplay").clientWidth / 2;
-        $("#artDisplay").css("bottom", (pos - off) + "px");
-    }
-    responsiveVoice.speak(data.artObjects[0].principalOrFirstMaker);
-    responsiveVoice.speak(data.artObjects[0].title);
+    var index = 0,
+    last = index;
+    returnedName = $("<h1 class='artistName'>").text(data.artObjects[index].principalOrFirstMaker);
+    returnedTitle = $("<h1 class='artTitle'>").text(data.artObjects[index].title);
+    returnedImages = $("<img id='artDisplay' class='img-responsive col-xs-12' style='height: 100%; max-width: 100%;'></img>").attr("src", data.artObjects[index].webImage.url);
+    $("#imageDisplay").html(returnedImages).append(returnedName).append(returnedTitle);
+    textHide = setTimeout(function() {
+        $(".artistName").fadeOut();
+        $(".artTitle").fadeOut();
+    }, 2000);
     slideshow = setInterval(function() {
-        presentationDiv = $("<div>");
+        index += 1;
+        if(index === data.artObjects.length) {
+            index = 0;
+        }
         returnedName = $("<h1 class='artistName'>").text(data.artObjects[index].principalOrFirstMaker);
         returnedTitle = $("<h1 class='artTitle'>").text(data.artObjects[index].title);
-        returnedImages = $("<img id='artDisplay'>").attr("src", data.artObjects[index].webImage.url);
-        presentationDiv.append(returnedName, returnedTitle, returnedImages);
-        $(".imageDisplay").html(presentationDiv);  
-        if(document.getElementById("artDisplay").clientWidth > document.getElementById("artDisplay").clientHeight) {
-            $("#artDisplay").css("width", $(".wrapper").width() + "px");
-            $("#artDisplay").css("height", "auto");
-            pos = $(".wrapper").height() / 2;
-            off = document.getElementById("artDisplay").clientHeight / 2;
-            $("#artDisplay").css("left", (pos - off) + "px");
-        } else {
-            $("#artDisplay").css("height", $(".wrapper").height() + "px");
-            $("#artDisplay").css("width", "auto");
-            pos = $(".wrapper").width() / 2;
-            off = document.getElementById("artDisplay").clientWidth / 2;
-            $("#artDisplay").css("bottom", (pos - off) + "px");
-        }   
+        returnedImages = $("<img id='artDisplay' class='img-responsive col-xs-12' style='height: 100%; max-width: 100%;'></img>").attr("src", data.artObjects[index].webImage.url);
+        $("#imageDisplay").html(returnedImages).append(returnedName).append(returnedTitle);
+        textHide = setTimeout(function() {
+            $(".artistName").fadeOut();
+            $(".artTitle").fadeOut();
+        }, 2000);
         if(last != data.artObjects[index].principalOrFirstMaker) {
             last = data.artObjects[index].principalOrFirstMaker;
             responsiveVoice.speak(data.artObjects[index].principalOrFirstMaker);
         }
         responsiveVoice.speak(data.artObjects[index].title);
-        index += 1;
-        if(index === data.artObjects.length) {
-            index = 0;
-        }
-    }, 5000);
+    }, 6000);
 }
 
 function defaultSearch() {
@@ -109,22 +85,30 @@ $(".submit").on("click", function(event) {
         pwd: password
     };
     $.post("/", newPost, function(data) {
-        $("#login").html("<div id='logName'>" + data.name + "&nbsp;&nbsp;</div><img id='avatar' src='/images/avatar.jpg'><div id='logOut'>Log Out&nbsp;</div>");     
+        $("#login").html("<div id='logName'>" + data.name + "&nbsp;&nbsp;</div><img id='avatar' src='/images/avatar.jpg'><img id='mag' src='/images/magIcon.png'><div id='logOut'>Log Out&nbsp;</div>");     
         avatarClick();
         $("#username").val("");
 
         if(login) {
-            $(".inputWrap").remove();
+            $(".inputWrap").empty();
             
             var newInput = $("<input id='artQuery' type='text'  placeholder='Search'>");
             var searchBtn = $("<button id='artSearch' class='search' type='submit'>Submit</button>");
-            $("#title").append(newInput, searchBtn);  
+            $(".inputWrap").append(newInput, searchBtn);  
             addClick();          
         }
     });
 });
-
-$(function() {
+function addClick() {
+    $("#mag").on("click", function(event) {
+        if(search && searchActive) {
+            search = false;
+            searchDisplay();
+        } else if(searchActive) {
+            search = true;
+            searchHide();
+        }
+    });
     $("input").keypress(function (e) {
         if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
             $('#artSearch').click();
@@ -133,8 +117,6 @@ $(function() {
             return true;
         }
     });
-});
-function addClick() {
     $("#artSearch").on("click", function(event) {
         event.preventDefault();
         var query = $("#artQuery").val().trim();
@@ -147,14 +129,25 @@ function addClick() {
             $("#artQuery").val("");
             $.get("/api/" + query, function(data) {
                 // renderData($.parseJSON(data));
+                if(searchActive) {
+                    searchHide();
+                } else {
+                    searched = true;
+                }
                 if(data.artObjects.length) {
+                    search = true;
+                    searchActive = true;
                     renderData(data);
                 } else {
                     $.get("/api/default", function(data) {
+                        search = true;
+                        searchActive = true;
                         renderData(data);
                     });
                 }
-                
+                $(".inputWrap").css("top", "-400px");
+                $("#artSearch").css("top", "235px");
+                $("#artQuery").css("top", "235px");
             });
         }
     });
@@ -194,6 +187,28 @@ function hideLogOut() {
             }
         }, 10);
     }
+}
+function searchDisplay() {
+    var barHeight = parseInt($("#artSearch").css("top"));
+    var searchDisplay = setInterval(function() {
+        barHeight += 5;
+        $("#artSearch").css("top", barHeight + "px");
+        $("#artQuery").css("top", barHeight + "px");
+        if(barHeight >= 435) {
+            clearInterval(searchDisplay);
+        }
+    }, 10);
+}
+function searchHide() {
+    var barHeight = parseInt($("#artSearch").css("top"));
+    var searchDisplay = setInterval(function() {
+        barHeight -= 5;
+        $("#artSearch").css("top", barHeight + "px");
+        $("#artQuery").css("top", barHeight + "px");
+        if(barHeight <= 235) {
+            clearInterval(searchDisplay);
+        }
+    }, 10);
 }
 
 window.addEventListener("resize", init);
