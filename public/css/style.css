@@ -144,3 +144,21 @@ input[type=text]:focus{
     cursor: pointer;
     filter: drop-shadow(2px 2px 2px black);
 }
+
+@import url('https://fonts.googleapis.com/css?family=Amiri');
+
+#description {
+    font-family: 'Amiri', serif;
+    width: 892px;
+    height: 0px;
+    overflow: hidden;
+    position: absolute;
+    padding-left: 80px;
+    top: 50px;
+    font-size: 16.5px;
+}
+
+#description::first-letter {
+    font-size: 200%;
+    color: #8A2BE2;
+}
