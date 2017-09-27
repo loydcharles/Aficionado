@@ -91,6 +91,7 @@ html, body {
     /* background-color: black; */
     color: darkgrey;
     cursor: pointer;
+    filter: drop-shadow(2px 2px 2px black);
 }
 input[type=text]:focus{
     outline: 0.25px solid darkgray;    

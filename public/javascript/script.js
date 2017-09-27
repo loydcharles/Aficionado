@@ -33,7 +33,8 @@ function renderData(data) {
     $("#imageDisplay").empty();
     clearInterval(slideshow);
     var index = 0,
-    last = index;
+    last = index,
+    lastTitle = data.artObjects[index].title;
     returnedName = $("<h1 class='artistName'>").text(data.artObjects[index].principalOrFirstMaker);
     returnedTitle = $("<h1 class='artTitle'>").text(data.artObjects[index].title);
     returnedImages = $("<img id='artDisplay' class='img-responsive col-xs-12' style='height: 100%; max-width: 100%;'></img>").attr("src", data.artObjects[index].webImage.url);
@@ -49,6 +50,10 @@ function renderData(data) {
         if(index === data.artObjects.length) {
             index = 0;
         }
+        do
+            index += 1;
+        while (data.artObjects[index].title == lastTitle);
+        lastTitle = data.artObjects[index].title;
         returnedName = $("<h1 class='artistName'>").text(data.artObjects[index].principalOrFirstMaker);
         returnedTitle = $("<h1 class='artTitle'>").text(data.artObjects[index].title);
         returnedImages = $("<img id='artDisplay' class='img-responsive col-xs-12' style='height: 100%; max-width: 100%;'></img>").attr("src", data.artObjects[index].webImage.url);
