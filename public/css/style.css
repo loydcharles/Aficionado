@@ -88,7 +88,7 @@ html, body {
     position: absolute;
     top: 50px;
     right: 0px;
-    background-color: black;
+    /* background-color: black; */
     color: darkgrey;
     cursor: pointer;
 }
@@ -150,6 +150,7 @@ input[type=text]:focus{
 #description {
     font-family: 'Amiri', serif;
     width: 892px;
+    max-width: 80vw;
     height: 0px;
     overflow: hidden;
     position: absolute;

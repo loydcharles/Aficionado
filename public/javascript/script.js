@@ -38,10 +38,12 @@ function renderData(data) {
     returnedTitle = $("<h1 class='artTitle'>").text(data.artObjects[index].title);
     returnedImages = $("<img id='artDisplay' class='img-responsive col-xs-12' style='height: 100%; max-width: 100%;'></img>").attr("src", data.artObjects[index].webImage.url);
     $("#imageDisplay").html(returnedImages).append(returnedName).append(returnedTitle);
+    responsiveVoice.speak(data.artObjects[index].title);
+    responsiveVoice.speak(data.artObjects[index].principalOrFirstMaker);
     textHide = setTimeout(function() {
         $(".artistName").fadeOut();
         $(".artTitle").fadeOut();
-    }, 2000);
+    }, 3000);
     slideshow = setInterval(function() {
         index += 1;
         if(index === data.artObjects.length) {
@@ -54,17 +56,17 @@ function renderData(data) {
         textHide = setTimeout(function() {
             $(".artistName").fadeOut();
             $(".artTitle").fadeOut();
-        }, 2000);
+        }, 3000);
+        responsiveVoice.speak(data.artObjects[index].title);
         if(last != data.artObjects[index].principalOrFirstMaker) {
             last = data.artObjects[index].principalOrFirstMaker;
             responsiveVoice.speak(data.artObjects[index].principalOrFirstMaker);
         }
-        responsiveVoice.speak(data.artObjects[index].title);
-    }, 6000);
+    }, 8000);
 }
 
 function defaultSearch() {
-    var queryURL = "https://www.rijksmuseum.nl/api/en/collection/?key=nRpUKIg0&format=json&ps=10&imgonly=True&q=Van%20Gogh";
+    var queryURL = "https://www.rijksmuseum.nl/api/en/collection/?key=nRpUKIg0&format=json&ps=100&imgonly=True&q=Van%20Gogh";
     $.ajax({
         url: queryURL,
         method: "GET"

@@ -9,7 +9,7 @@ $("#title").mouseover(function(){
       $("#title").append(description);  
         var descriptionDrop = setInterval(function() {
           var descriptionHeight = parseInt($("#description").css("height"));
-          if(descriptionHeight < 115.5) {
+          if(descriptionHeight < 150) {
             descriptionHeight += 2;
             // $("#description").css("font-size", descriptionHeight / 7 + "px");
             $("#description").css("height", descriptionHeight + "px");
